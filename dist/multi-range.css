@@ -1,0 +1,187 @@
+.multiRange {
+  min-width: 200px;
+}
+
+.multiRange.type1 .multiRange__range {
+  color: #EEE;
+}
+
+.multiRange.type1 .multiRange__range:nth-child(2) {
+  color: #EC5564;
+}
+
+.multiRange.type1 .multiRange__range__handle {
+  box-shadow: none;
+  background: #EC5564;
+}
+
+.multiRange.type1 .multiRange__range__value {
+  background: #EC5564;
+  color: white;
+}
+
+.multiRange.type1 .multiRange__range__value::after {
+  border-color: #EC5564 transparent transparent;
+}
+
+body.multiRange-grabbing {
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+
+.multiRange {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.multiRange__rangeWrap {
+  height: 12px;
+  background: #E8E8E8;
+  border-radius: 3px;
+  position: relative;
+  z-index: 5;
+}
+
+.multiRange__range {
+  height: 100%;
+  position: absolute;
+  right: 0;
+  background: currentColor;
+}
+
+.multiRange__range:nth-child(1) {
+  color: #e5b26c;
+}
+
+.multiRange__range:nth-child(2) {
+  color: #d1e56c;
+}
+
+.multiRange__range:nth-child(3) {
+  color: #8ae56c;
+}
+
+.multiRange__range:nth-child(4) {
+  color: #6ce594;
+}
+
+.multiRange__range:nth-child(5) {
+  color: #6ce5db;
+}
+
+.multiRange__range:first-child > .multiRange__range__handle,.multiRange__range:first-child > .multiRange__range__value {
+  display: none;
+}
+
+.multiRange__range.grabbed > .handle {
+  background: black;
+}
+
+.multiRange__range.hideValue .multiRange__range__value {
+  color: transparent;
+  pointer-events: none;
+}
+
+.multiRange__range.groupedValue .multiRange__range__value {
+  left: 50%;
+  -webkit-transform: translate(-50%, -16px);
+      -ms-transform: translate(-50%, -16px);
+          transform: translate(-50%, -16px);
+  -webkit-transition: 80ms ease;
+  transition: 80ms ease;
+}
+
+.multiRange__range__handle {
+  width: 2px;
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  left: -1px;
+  cursor: -webkit-grab;
+  cursor: grab;
+  background: currentColor;
+  box-shadow: 1px 0 white, -1px 0 white;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.multiRange__range__handle:active {
+  cursor: inherit;
+}
+
+.multiRange__range__value {
+  position: absolute;
+  -webkit-transform: translate(-50%, -16px);
+      -ms-transform: translate(-50%, -16px);
+          transform: translate(-50%, -16px);
+  min-width: 10px;
+  background: #333;
+  color: white;
+  padding: 2px 6px;
+  top: -100%;
+  left: -1px;
+  white-space: nowrap;
+  font-size: 11px;
+  text-align: center;
+  border-radius: 4px;
+  cursor: default;
+}
+
+.multiRange__range__value::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  border-color: #333 transparent transparent;
+  border-style: solid;
+  border-width: 3px 4px;
+  -webkit-transform: translate(-50%, 50%);
+      -ms-transform: translate(-50%, 50%);
+          transform: translate(-50%, 50%);
+  color: #333;
+  font-size: 15px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.multiRange__ticks {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  height: 6px;
+  margin: 2px 0 0 0;
+  font: 10px Arial;
+  cursor: default;
+}
+
+.multiRange__ticks > div {
+  height: 100%;
+  width: 1px;
+  background: #DDD;
+  color: #888;
+}
+
+.multiRange__ticks > div::before {
+  display: none;
+  content: attr(data-value);
+  -webkit-transform: translate(-50%, 100%);
+      -ms-transform: translate(-50%, 100%);
+          transform: translate(-50%, 100%);
+  text-align: center;
+  width: 40px;
+}
+
+.multiRange__ticks > div:nth-child(5n - 4) {
+  height: 200%;
+}
+
+.multiRange__ticks > div:nth-child(5n - 4)::before {
+  display: block;
+}

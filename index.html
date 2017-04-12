@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Multi Range Slider - Demo</title>
+        <meta name="description" content="Multi ranger slider component (vanilla JS)">
+        <meta name="author" content="Yair Even-Or">
+
+        <link rel="stylesheet" href="https://cdn.rawgit.com/yairEO/ec9e154c4269b9a0f264fba7f64d7383/raw/9c3a2c44786cc671d48f939cf14a14235b2dfaa3/vsync_demos.css">
+
+        <link rel="stylesheet" href="dist/multi-range.css">
+        <script src="dist/multi-range.js"></script>
+
+        <style>
+            p{ line-height:1.4; }
+            h2{ margin:0 0 2em; }
+            code{ padding:2px 3px; background:lightyellow; }
+
+            .multiRange{ width:88%; }
+
+            .type1 .multiRange__range__value::before{ content:'$'; }
+
+            @media( max-width: 1700px ){
+                .type1 .multiRange__ticks > div:nth-child(5n - 4){ height:100%; }
+                .type1 .multiRange__ticks > div:nth-child(5n - 4)::before{ display:none; }
+
+                .type1 .multiRange__ticks > div:nth-child(10n - 9){ height:200%; }
+                .type1 .multiRange__ticks > div:nth-child(10n - 9)::before{ display:block; }
+            }
+        </style>
+    </head>
+
+    <body>
+        <a class='forkLink' href="https://github.com/yairEO/multi-range"><img src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+        <form>
+            <section>
+                <aside class='leftSide'>
+                    <h2>text input</h2>
+                    <p>
+                        Create the simplest multy-range slider component
+                    </p>
+                    <h3>HTML</h3>
+                    <xmp><component class='multiRange'></component></xmp>
+                    <h3>JAVASCRIPT</h3>
+                    <pre>
+var multiRangeElm = document.querySelectorAll('.multiRange')[0];
+var multiRange = new MultiRange(multiRangeElm, {
+    ranges : [15, 44, 77, 88],
+    step   : 0
+});
+
+// listen to custom 'remove' tag event
+multiRange.on('change', onRangeChange);
+multiRange.on('changed', onRangeChanged);
+
+function onRangeChange(e){
+    console.log(e, e.detail);
+}
+
+function onRangeChanged(e){
+    console.log(e, e.detail);
+}
+                    </pre>
+                </aside>
+                <aside class='rightSide'>
+                    <component class='multiRange'></component>
+                </aside>
+            </section>
+            <section>
+                <aside class='leftSide'>
+                    <h2>inline options and a larger range</h2>
+                    <p>
+                        A more complex example, with more ranges and inline html settings as custom data attributes
+                    </p>
+                    <h3>HTML</h3>
+                    <xmp><component class='multiRange type1' data-min='150' data-max='5000' data-step='100'></component></xmp>
+                    <h3>JAVASCRIPT</h3>
+                    <pre>
+var multiRangeElm = document.querySelectorAll('.multiRange')[1];
+var multiRange = new MultiRange(multiRangeElm, {
+    ticks    : 80,
+    step     : 10,
+    minRange : 50
+});
+                    </pre>
+                </aside>
+                <aside class='rightSide'>
+                    <component class='multiRange type1' data-min='150' data-max='5000' data-step='100'></component>
+                </aside>
+            </section>
+        </form>
+        <!-- Initialize Tagify for both Input and Textaera -->
+        <script>
+            var multiRange1 = new MultiRange(document.querySelectorAll('.multiRange')[0], {
+                ranges : [15, 44, 77, 88],
+                step   : 0
+            });
+
+            var multiRange2 = new MultiRange(document.querySelectorAll('.multiRange')[1], {
+                ticks    : 80,
+                minRange : 50
+            });
+
+            multiRange1.on('changed', onrangeChanged);
+            multiRange2.on('changed', onrangeChanged);
+
+            function onrangeChanged(e){
+                console.log( e, e.detail )
+            }
+        </script>
+    </body>
+</html>
