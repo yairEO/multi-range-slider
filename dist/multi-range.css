@@ -11,7 +11,8 @@
 }
 
 .multiRange.type1 .multiRange__range__handle {
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
   background: #EC5564;
 }
 
@@ -81,16 +82,6 @@ body.multiRange-grabbing {
 
 .multiRange__range.hideValue .multiRange__range__value {
   color: transparent;
-  pointer-events: none;
-}
-
-.multiRange__range.groupedValue .multiRange__range__value {
-  left: 50%;
-  -webkit-transform: translate(-50%, -16px);
-      -ms-transform: translate(-50%, -16px);
-          transform: translate(-50%, -16px);
-  -webkit-transition: 80ms ease;
-  transition: 80ms ease;
 }
 
 .multiRange__range__handle {
@@ -102,8 +93,10 @@ body.multiRange-grabbing {
   cursor: -webkit-grab;
   cursor: grab;
   background: currentColor;
-  box-shadow: 1px 0 white, -1px 0 white;
+  -webkit-box-shadow: 1px 0 white, -1px 0 white;
+          box-shadow: 1px 0 white, -1px 0 white;
   -webkit-transition: .2s;
+  -o-transition: .2s;
   transition: .2s;
 }
 
@@ -111,16 +104,16 @@ body.multiRange-grabbing {
   cursor: inherit;
 }
 
-.multiRange__range__value {
+.multiRange__range__value,.multiRange__range__groupedValue {
   position: absolute;
-  -webkit-transform: translate(-50%, -16px);
-      -ms-transform: translate(-50%, -16px);
-          transform: translate(-50%, -16px);
+  -webkit-transform: translate(-50%, -10px);
+      -ms-transform: translate(-50%, -10px);
+          transform: translate(-50%, -10px);
   min-width: 10px;
-  background: #333;
+  background: #31383f;
   color: white;
   padding: 2px 6px;
-  top: -100%;
+  bottom: 12px;
   left: -1px;
   white-space: nowrap;
   font-size: 11px;
@@ -133,14 +126,14 @@ body.multiRange-grabbing {
   content: "";
   position: absolute;
   left: 50%;
-  bottom: -3px;
-  border-color: #333 transparent transparent;
+  bottom: 1px;
+  border-color: #31383f transparent transparent;
   border-style: solid;
-  border-width: 3px 4px;
-  -webkit-transform: translate(-50%, 50%);
-      -ms-transform: translate(-50%, 50%);
-          transform: translate(-50%, 50%);
-  color: #333;
+  border-width: 5px 5px;
+  -webkit-transform: translate(-50%, 100%);
+      -ms-transform: translate(-50%, 100%);
+          transform: translate(-50%, 100%);
+  color: #31383f;
   font-size: 15px;
   z-index: -1;
   pointer-events: none;

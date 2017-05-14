@@ -8,11 +8,12 @@ var gulp         = require('gulp'),
     sourcemaps   = require('gulp-sourcemaps'),
     //debug      = require('gulp-debug'),
     sass         = require('gulp-sass'),
+    csso         = require('gulp-csso'),
     combineMq    = require('gulp-combine-mq'),
     cssGlobbing  = require('gulp-css-globbing'),
     autoprefixer = require('gulp-autoprefixer'),
 
-    csso         = require('gulp-csso'),
+    umd          = require('gulp-umd'),
     uglify       = require('gulp-uglify'),
     rename       = require('gulp-rename'),
     concat       = require('gulp-concat'),
@@ -127,6 +128,12 @@ gulp.task('build_js', () => {
     lint(jsStream);
 
     return gulp.src('src/'+NAME+'.js')
+        // https://www.npmjs.com/package/gulp-umd
+        .pipe(umd(
+            {
+                namespace : (file) => 'multiRange'
+            }
+        ))
         .pipe(insert.prepend(banner))
         .pipe(gulp.dest('./dist/'))
 

@@ -5,18 +5,18 @@
             color:#EEE;
             // transition:50ms;
 
-            &:nth-child(2){ color:$C; }
+            &:nth-child(2){ color: $C; }
 
             &__handle{
-                box-shadow:none;
-                background:$C;
+                box-shadow: none;
+                background: $C;
             }
 
             &__value{
-                background:$C;
-                color:white;
+                background: $C;
+                color: white;
                 &::after{
-                    border-color:$C transparent transparent;
+                    border-color: $C transparent transparent;
                 }
             }
         }
@@ -28,9 +28,24 @@
 body.multiRange-grabbing{ cursor:grabbing; }
 
 .multiRange{
+    // map-get helper
+    @function mg($map, $key){
+        @if map-has-key($map, $key){
+            @return map-get($map, $key);
+        }
+        @return null;
+    }
+
+
     $height       : 12px;
-    $arrowSize    : 3px;
-    $valueOffsetY : -#{$arrowSize*2 + 10};
+    $arrowSize    : 5px;
+    $valueOffsetY : -#{$arrowSize*2 + 0};
+    $valueBG      : #31383f;
+    $ticks        : (
+        tickColor : #DDD,
+        textColor : #888
+    );
+
 
     // can be used to set automatic color to each range slice
     @mixin rangesColors( $size:6 ){
@@ -78,12 +93,8 @@ body.multiRange-grabbing{ cursor:grabbing; }
             .multiRange__range__value{
                 // visibility:hidden;
                 color: transparent;
-                pointer-events:none;
+                //pointer-events:none;
             }
-        }
-
-        &.groupedValue{
-            .multiRange__range__value{ left:50%; transform: translate(-50%, $valueOffsetY); transition:80ms ease; }
         }
 
         &__handle{
@@ -103,37 +114,38 @@ body.multiRange-grabbing{ cursor:grabbing; }
             &:active{ cursor:inherit; }
         }
 
-        &__value{
-            $C: #333;
-
+        &__value,
+        &__groupedValue{
             position: absolute;
             transform: translate(-50%, $valueOffsetY);
             min-width:10px;
-            background: $C;
+            background: $valueBG;
             color: white;
             padding: 2px 6px;
-            top: -100%;
+            bottom: $height;
             left: -1px;
             white-space: nowrap;
             font-size: 11px;
-            text-align:center;
-            border-radius:4px;
-            cursor:default;
+            text-align: center;
+            border-radius: 4px;
+            cursor: default;
            //  pointer-events:none;
+        }
 
+        &__value{
             &::after{
                 content: "";
                 position: absolute;
                 left: 50%;
-                bottom: -3px;
-                border-color: $C transparent transparent;
+                bottom: 1px;
+                border-color: $valueBG transparent transparent;
                 border-style: solid;
-                border-width: $arrowSize 4px;
-                transform: translate(-50%, 50%);
-                color: $C;
+                border-width: $arrowSize $arrowSize;
+                transform: translate(-50%, 100%);
+                color: $valueBG;
                 font-size: 15px;
                 z-index: -1;
-                pointer-events:none;
+                pointer-events: none;
             }
 
             &--bottom{
@@ -144,18 +156,18 @@ body.multiRange-grabbing{ cursor:grabbing; }
     }
 
     &__ticks{
-        display:flex;
+        display: flex;
         justify-content: space-between;
         height: 6px;
         margin: 2px 0 0 0;
-        font:10px Arial;
-        cursor:default;
+        font: 10px Arial;
+        cursor: default;
 
         > div{
-            height:100%;
-            width:1px;
-            background:#DDD;
-            color: #888;
+            height: 100%;
+            width: 1px;
+            background: mg($ticks, tickColor);
+            color: mg($ticks, textColor);
 
             &::before{
                 display: none;

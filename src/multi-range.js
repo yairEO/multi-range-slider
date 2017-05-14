@@ -1,16 +1,11 @@
-// (C) Yair Even-Or 2017
-// DO NOT COPY
-
-(function(){
-
 /**
  * Extends the first Object with the properties and values of the second
  */
 function extend(o1, o2){
     for( var key in o2 )
-        if( o2.hasOwnProperty(key) ){
+        if( o2.hasOwnProperty(key) )
             o1[key] = isNaN(+o2[key]) || typeof o2[key] != 'string' ? o2[key] : +o2[key];
-        }
+
     return o1;
 };
 
@@ -112,6 +107,9 @@ this.MultiRange.prototype = {
         this.DOM.scope.appendChild(this.DOM.rangeWrap);
         this.DOM.scope.appendChild(this.DOM.ticks);
 
+        // when two or more slices' values elements are groups (too close to each other) a group element is created an positioned accordingly
+        this.DOM.groups = [];
+
         // replace the placeholder component element with the real one
         placeholderElm.parentNode.replaceChild(this.DOM.scope, placeholderElm);
     },
@@ -172,13 +170,16 @@ this.MultiRange.prototype = {
     },
 
     groupValues2 : function(){
-            console.warn('------')
+        console.warn('------')
 
-        var rects = [], // rects array for all the ranges' values
+        var that = this,
+            rects = [], // rects array for all the ranges' values
             overlap, // boolean flag
             valueElm,
+            prevGroups = this.state.groups.slice(0), // clone the "state.groups" array for later usage
             tempGroups = [],
-            slicesCount = this.DOM.rangeWrap.children.length,
+            groupsChanged,
+            slicesCount = this.DOM.rangeWrap.querySelectorAll('.multiRange__range').length,
             i;
 
         this.state.groups.length = 0;
@@ -187,7 +188,7 @@ this.MultiRange.prototype = {
         // do not include the first range because its value isn't shown
         for( i = slicesCount; i-- > 1; ){
             valueElm = this.DOM.rangeWrap.children[i].querySelector('.multiRange__range__value');
-            rects.push( valueElm.getBoundingClientRect() );
+            valueElm && rects.push( valueElm.getBoundingClientRect() );
         }
 
         // step 2 -  Iterate all the rects and check which overlap which. save the each "touching" slice index in the "groups" state object. add "null" between not overlapped slices
@@ -219,14 +220,41 @@ this.MultiRange.prototype = {
             this.DOM.rangeWrap.children[i].classList.toggle('hideValue', this.state.groups.toString().indexOf(i) != -1 );
         }
 
-        // this.state.groups.forEach(function(v){
-        //     that.DOM.rangeWrap.children[v].classList.toggle('hideValue')
-        //     if( v ){
-        //         var valueElm = that.DOM.rangeWrap.children[v].querySelector('.multiRange__range__value')
-        //     }
-        // })
+        groupsChanged = this.state.groups.toString() != prevGroups.toString();
 
-        console.log(this.state.groups);
+        // step 4 - if the groups were changed, erase the old groups' nodes
+        if( groupsChanged && this.DOM.groups && this.DOM.groups.length ){
+            // remove all groups elements before creating new ones
+            this.DOM.groups.forEach(function(elm){
+                elm.parentNode.removeChild(elm);
+            })
+            this.DOM.groups.length = 0;
+        }
+
+        // step 5 - create DOM nodes (one for each group)
+        this.state.groups.forEach(function(group, i){
+            var elm;
+            // if groups changed
+            if( groupsChanged ){
+                // create new DOM nodes
+                elm = document.createElement('div');
+                elm.className = 'multiRange__groupedValue';
+                elm.rel = group.toString();
+
+                // cache element reference
+                that.DOM.groups.push(elm);
+
+                that.DOM.rangeWrap.appendChild(elm);
+                // console.log(group);
+            }
+
+            elm = that.DOM.groups[i];
+
+            console.log(elm)
+        })
+
+
+        //console.log(this.state.groups);
     },
 
 
@@ -368,4 +396,3 @@ this.MultiRange.prototype = {
         }
     }
 }
-})(this);
