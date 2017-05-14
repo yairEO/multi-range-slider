@@ -1,4 +1,4 @@
 Multi-range-slider
 ========
 
-# TBD
+# TBD - WORK IN (SLOW) PROGRESS
